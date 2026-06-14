@@ -24,19 +24,23 @@
 
 ## SEÇÃO 2 — Processos de Bastidor (Backstage)
 
-**Objetivo:** Mapear os processos executados fora da vista do cidadão, identificando o ator responsável, o sistema envolvido e a janela temporal.
+**Objetivo:** Mapear os processos executados fora da vista do cidadão, identificando o ator responsável, o sistema envolvido e a janela temporal. Os processos são classificados em dois níveis conforme a linha de interação interna de Shostack: **Backstage** (acionado em resposta direta à interação) e **Processo de Suporte** (estrutural/permanente, independente de chamada específica).
 
-| Etapa da Jornada Correspondente | Ator Responsável (ID) | Processo / Ação | Sistema Envolvido | Janela Temporal | Dependência Crítica |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1. Pré-chamada** | **A** (Empregador), **D** (Dataprev), **C** (MTE) | Registro formal da rescisão no eSocial (A); processamento do lote e checagem de elegibilidade (D); liberação para consulta (C). | eSocial, Sistemas Dataprev, Base de Dados do MTE. | Até 10 dias após a demissão (A); Processamento em lote (D). | Cumprimento rigoroso do prazo legal de registro pelo Empregador (A). |
-| **2. Recepção e Autenticação** | **G** (Segurança da Informação), **O** (URA), **L** (Equipes de TI) | A URA captura CPF/NIS e aciona APIs de validação de dados com base nas regras dinâmicas de autenticação KBA configuradas. | URA Caixa, Gateway de APIs Caixa, Banco de Dados Cadastral. | Tempo real (resposta em milissegundos durante a chamada). | Disponibilidade contínua da infraestrutura de rede e bases de dados da Caixa (L). |
-| **3. Navegação** | **P** (ASR/NLP), **O** (URA) | Conversão em tempo real do áudio de entrada em texto estruturado; processamento de linguagem natural para classificar a intenção. | Motor ASR/NLP integrado à URA. | Tempo real. | Estabilidade na rede de telecomunicações (K) e clareza de áudio da linha do usuário. |
-| **4. Autoatendimento** | **F** (Caixa), **C** (MTE) | A URA consome os dados de status do benefício atualizados pela integração MTE-Caixa e faz a conversão de dados em áudio (TTS). | API de Integração MTE-Caixa, Motor Text-to-Speech. | Tempo real na consulta; D-1 na atualização de sincronia dos dados. | Integração sem falhas dos lotes de processamento da Dataprev/MTE para o agente pagador (F). |
-| **5. Atendimento Humano** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | O algoritmo ACD enfileira a chamada por habilidade (skill). A tela do atendente (Screen Pop) é carregada com o CPF previamente autenticado. | Sistema PABX/ACD, CRM/Tela de Atendimento Integrada Caixa. | Fila: Variável (minutos). Screen Pop: Tempo real. | Roteamento correto pelo ACD (J) e passagem transparente de contexto da URA para o CRM. |
-| **6. Desfecho** | **Q** (Atendente), **L** (Equipes de TI) | Atendente realiza a tipificação (tabulação) obrigatória da chamada, gera o protocolo final, salva o histórico e libera a linha de atendimento. | CRM / Sistema de Bilhetagem e Gravação. | Ao final da chamada (Wrap-up time: estimado entre 30 e 60 segundos). | Sistema de CRM responsivo para gravação estável do histórico de atendimento. |
+| Etapa da Jornada Correspondente | Nível de Bastidor | Ator Responsável (ID) | Processo / Ação | Sistema Envolvido | Janela Temporal | Dependência Crítica |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Transversal (Governança Normativa)** | **Processo de Suporte** | **B** (CODEFAT), **C** (MTE), **F** (Caixa) | Tradução de novas Resoluções CODEFAT em regras de elegibilidade e scripts atualizados de URA; descompasso entre publicação no DOU e atualização dos sistemas. | Sistemas MTE e Dataprev; Scripts de URA Caixa. | Janela de adequação variável pós-publicação. | Publicação do normativo no Diário Oficial. |
+| **Transversal (Controle / Auditoria)** | **Processo de Suporte** | **I** (TCU/CGU) | Monitoramento e auditoria contínua da aplicação dos recursos do FAT e contratos de terceirização; realimenta regras de design do serviço. | Sistemas de controle e-TCE. | Contínuo / Periódico. | Prestação de contas enviada pelo MTE/Caixa. |
+| **Transversal (Sustentação de Infraestrutura)** | **Processo de Suporte** | **K** (Fornecedores de Infraestrutura), **L** (Equipes de TI) | Manutenção de enlaces de telecomunicações, links SIP, licenças ativas de URA e disponibilidade dos bancos de dados legados da Caixa, com seus SLAs e janelas de manutenção. | Infraestrutura de rede externa; Servidores Caixa. | SLA Contínuo (24/7). | Cumprimento contratual dos fornecedores K e L. |
+| **Transversal (Gravação / Compliance)** | **Processo de Suporte** | **L** (Equipes de TI) | Gravação ativa das chamadas de voz em tempo real e arquivamento em storage para fins de compliance e LGPD; período de retenção regulatório. | Servidores de Gravação / Storage. | Permanente durante chamada; retenção: [HIPÓTESE — VALIDAR prazo via contrato ou Dec 11.034/2022]. | Disponibilidade contínua de armazenamento e conformidade LGPD. |
+| **1. Pré-chamada** | **Backstage** | **A** (Empregador), **D** (Dataprev), **C** (MTE) | Registro formal da rescisão no eSocial (A); processamento do lote e checagem de elegibilidade (D); liberação para consulta (C). | eSocial, Sistemas Dataprev, Base de Dados do MTE. | Até 10 dias após a demissão (A); Processamento em lote (D). | Cumprimento rigoroso do prazo legal de registro pelo Empregador (A). |
+| **2. Recepção e Autenticação** | **Backstage** | **G** (Segurança da Informação), **O** (URA), **L** (Equipes de TI) | A URA captura CPF/NIS e aciona APIs de validação de dados com base nas regras dinâmicas de autenticação KBA configuradas. | URA Caixa, Gateway de APIs Caixa, Banco de Dados Cadastral. | Tempo real (resposta em milissegundos durante a chamada). | Disponibilidade contínua da infraestrutura de rede e bases de dados da Caixa (L). |
+| **3. Navegação** | **Backstage** | **P** (ASR/NLP), **O** (URA) | Conversão em tempo real do áudio de entrada em texto estruturado; processamento de linguagem natural para classificar a intenção. | Motor ASR/NLP integrado à URA. | Tempo real. | Estabilidade na rede de telecomunicações (K) e clareza de áudio da linha do usuário. |
+| **4. Autoatendimento** | **Backstage** | **F** (Caixa), **C** (MTE) | A URA consome os dados de status do benefício atualizados pela integração MTE-Caixa e faz a conversão de dados em áudio (TTS). | API de Integração MTE-Caixa, Motor Text-to-Speech. | Tempo real na consulta; D-1 na atualização de sincronia dos dados. | Integração sem falhas dos lotes de processamento da Dataprev/MTE para o agente pagador (F). |
+| **5. Atendimento Humano** | **Backstage** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | O algoritmo ACD enfileira a chamada por habilidade (skill). A tela do atendente (Screen Pop) é carregada com o CPF previamente autenticado. | Sistema PABX/ACD, CRM/Tela de Atendimento Integrada Caixa. | Fila: Variável (minutos). Screen Pop: Tempo real. | Roteamento correto pelo ACD (J) e passagem transparente de contexto da URA para o CRM. |
+| **6. Desfecho** | **Backstage** | **Q** (Atendente), **L** (Equipes de TI) | Atendente realiza a tipificação (tabulação) obrigatória da chamada, gera o protocolo final, salva o histórico e libera a linha de atendimento. | CRM / Sistema de Bilhetagem e Gravação. | Ao final da chamada (Wrap-up time: estimado entre 30 e 60 segundos). | Sistema de CRM responsivo para gravação estável do histórico de atendimento. |
 
 **Lacunas desta seção:**
-[HIPÓTESE — VALIDAR] A latência exata (SLA) de sincronização de dados entre a aprovação do benefício pela Dataprev/MTE e a real disponibilidade do status atualizado na API consumida pela URA da Caixa. Registro: [MÉTRICA AUSENTE — fonte sugerida: Contrato de nível de serviço entre Caixa Econômica Federal e MTE].
+`[HIPÓTESE — VALIDAR]` A latência exata (SLA) de sincronização de dados entre a aprovação do benefício pela Dataprev/MTE e a real disponibilidade do status na API da URA. Os SLAs detalhados dos contratos de sustentação de infraestrutura (Ator K) e os prazos precisos de retenção de gravações (Ator L) carecem de confirmação documental pública. `[MÉTRICA AUSENTE — fonte sugerida: contratos MTE/Caixa e relatórios TCU]`.
 
 ---
 
@@ -60,29 +64,41 @@
 
 ## SEÇÃO 4 — Normativos Aplicáveis
 
-**Objetivo:** Produzir o mapeamento regulatório completo e ordenado que governa cada dimensão do serviço, listado em ordem de hierarquia.
+**Objetivo:** Produzir o mapeamento regulatório completo e ordenado que governa cada dimensão do serviço, com vinculação explícita ao processo de bastidor (Seção 2) ou à etapa da jornada (Seção 1) que o normativo governa.
 
 ### 4A — Normativos do Benefício (O que a URA consulta e informa)
-* **Lei Federal nº 7.998/1990 (Artigos 2º e 3º):** Regula o programa do Seguro-Desemprego, definindo os critérios de elegibilidade fundamentais para recebimento do benefício (verba de caráter alimentar). *Aplica-se às Regras de Negócio que a URA deve consultar e informar.* **[CONFIRMADO]** (Aferição pública via auditorias do TCU / CGU).
-* **Lei Federal nº 10.779/2003 (Artigos 1º e 2º):** Institui o Seguro-Desemprego para o pescador artesanal durante o período de defeso (Seguro Defeso). *Aplica-se à segmentação de perfis de atores (N) e menus específicos de árvore da URA.* **[CONFIRMADO]**.
-* **Lei Federal nº 13.134/2015 (Artigo 1º):** Altera a Lei nº 7.998/1990, modificando os prazos de carência exigidos para a primeira, segunda e demais solicitações do benefício. *Aplica-se à lógica do Processo D (Dataprev) antes da disponibilização à Caixa.* **[CONFIRMADO]**.
-* **Resolução CODEFAT nº 957/2022 (Artigos 4º a 12):** Unifica e consolida as normas sobre os procedimentos administrativos de processamento, habilitação e pagamento do benefício. *Aplica-se diretamente à arquitetura de integração e prazos do Backstage.* **[CONFIRMADO]**.
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei Federal nº 7.998/1990 | Arts. 2º e 3º | Critérios de elegibilidade fundamentais do Seguro-Desemprego (verba alimentar) | **Processo de Suporte: Governança Normativa** → regras de negócio da URA; Etapa 4 (consulta de status) | `[CONFIRMADO]` — aferição via auditorias TCU/CGU |
+| Lei Federal nº 10.779/2003 | Arts. 1º e 2º | Institui o Seguro Defeso para pescador artesanal | **Processo de Suporte: Governança Normativa** → modalidade Defeso; menus específicos da URA | `[CONFIRMADO]` — publicação DOU |
+| Lei Federal nº 13.134/2015 | Art. 1º | Altera prazos de carência para 1ª, 2ª e demais solicitações | **Backstage** (Etapa 1, Processo D/Dataprev): lógica de elegibilidade antes da disponibilização à Caixa | `[CONFIRMADO]` — publicação DOU |
+| Resolução CODEFAT nº 957/2022 | Arts. 4º a 12 | Unifica procedimentos de processamento, habilitação e pagamento | **Processo de Suporte: Governança Normativa** → arquitetura de integração e prazos do Backstage | `[CONFIRMADO]` — publicação DOU |
 
 ### 4B — Normativos do Canal de Atendimento (Como a URA deve operar)
-* **Decreto Federal nº 11.034/2022 (Nova Lei do SAC) (Artigos 4º, §1º e 12):** Substitui o antigo Decreto nº 6.523/2008. Estabelece novas diretrizes sobre acessibilidade, tempo máximo na fila de espera e obrigatoriedade de transbordo humano direto. *Aplica-se diretamente à Etapa 5 (ACD/CTI e Atendente Humano).* **[CONFIRMADO]** (Mecanismo de aferição pública via canais de ouvidoria e monitoramento da SENACON).
-* **Portaria SENACON nº 15/2022 (Artigo 2º):** Regulamenta as disposições do Decreto nº 11.034/2022 detalhando as métricas de tempo máximo e disponibilidade de atendimento telefônico humano. *Aplica-se à gestão operacional da central de atendimento (Ator M).* **[CONFIRMADO]**.
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Decreto Federal nº 11.034/2022 (Nova Lei do SAC) | Arts. 4º, §1º e 12 | Tempo máximo na fila de espera, acessibilidade e obrigatoriedade de transbordo humano | **Backstage** Etapa 5 (ACD/CTI e Atendente Humano); FP-07 (TMA) | `[CONFIRMADO]` — monitoramento via SENACON e ouvidorias |
+| Portaria SENACON nº 15/2022 | Art. 2º | Métricas de tempo máximo e disponibilidade de atendimento telefônico humano | **Backstage** Etapa 5; gestão operacional da central (Ator M) | `[CONFIRMADO]` — publicação DOU |
 
 ### 4C — Normativos de Tecnologia e Dados (Como os sistemas devem ser construídos)
-* **Lei Federal nº 13.709/2018 (Lei Geral de Proteção de Dados - LGPD) (Artigos 7º, II e 11, II):** Define as hipóteses legais para tratamento de dados pessoais na execução de políticas públicas e baliza a segurança da autenticação. *Aplica-se diretamente à Etapa 2 (Autenticação KBA - Ator G).* **[CONFIRMADO]** (Verificável via Relatórios de Impacto à Proteção de Dados / DPO da Caixa).
-* **Decreto Federal nº 10.046/2019 (Artigos 2º e 3º):** Dispõe sobre a Governança de Compartilhamento de Dados no âmbito da administração pública federal, regulando o Cadastro Central de Cidadãos. *Aplica-se à integração técnica de backplane (Dataprev → MTE → Caixa).* **[CONFIRMADO]**.
-* **Portaria STI/MP nº 3/2010 (Padrões de Interoperabilidade - e-PING):** Estabelece os padrões mínimos de arquitetura técnica e comunicação para o governo eletrônico brasileiro. *Aplica-se ao desenvolvimento de APIs de integração dos sistemas logados.* **[HIPÓTESE — VALIDAR]** (Grau de conformidade técnica das APIs de legado da central Caixa).
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei Federal nº 13.709/2018 (LGPD) | Arts. 7º, II e 11, II | Tratamento de dados pessoais para política pública e autenticação KBA | **Processo de Suporte: Gravação/Compliance**; **Backstage** Etapa 2 (KBA — Ator G) | `[CONFIRMADO]` — verificável via RIPD/DPO da Caixa |
+| Decreto Federal nº 10.046/2019 | Arts. 2º e 3º | Governança de compartilhamento de dados federais (Dataprev → MTE → Caixa) | **Backstage** Etapa 1: cadeia eSocial → Dataprev → MTE → URA | `[CONFIRMADO]` — publicação DOU |
+| Portaria STI/MP nº 3/2010 (e-PING) | Padrões de interoperabilidade | Padrões mínimos de arquitetura técnica e comunicação para governo eletrônico | **Processo de Suporte: Sustentação de Infraestrutura** → APIs de integração dos sistemas (Ator L) | `[HIPÓTESE — VALIDAR]` — conformidade das APIs de legado da central Caixa |
 
 ### 4D — Normativos de Controle e Governança
-* **Lei Federal nº 14.133/2021 (Artigo 11 e Artigo 75):** Nova Lei de Licitações e Contratos Administrativos, orientando as contratações públicas de serviços de contact center terceirizados. *Aplica-se à contratualização do Ator Q pela Caixa.* **[CONFIRMADO]** (Verificável via Portal da Transparência).
-* **Instrução Normativa TCU nº 84/2020 (Artigos 8º e 9º):** Estabelece normas para a prestação de contas dos administradores de fundos públicos, incluindo a aplicação dos recursos constitucionais do FAT. *Aplica-se ao monitoramento de conformidade realizado pelo Ator I (TCU).* **[CONFIRMADO]**.
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei Federal nº 14.133/2021 | Arts. 11 e 75 | Licitações e contratos de call center terceirizado | **Processo de Suporte: Sustentação de Infraestrutura** → contratualização do Atendente Q (Ator K) | `[CONFIRMADO]` — Portal da Transparência |
+| Instrução Normativa TCU nº 84/2020 | Arts. 8º e 9º | Prestação de contas dos administradores de fundos públicos (FAT) | **Processo de Suporte: Controle/Auditoria** → monitoramento de conformidade pelo Ator I (TCU) | `[CONFIRMADO]` — publicação DOU; prestação de contas obrigatória |
 
 **Lacunas desta seção:**
-[HIPÓTESE — VALIDAR] Como as diretrizes do e-MAG (Modelo de Acessibilidade em Governo Eletrônico) são efetivamente fiscalizadas em auditorias de centrais telefônicas (URA), dado que as minúcias técnicas do e-MAG concentram-se majoritariamente em interfaces web e digitais visuais, possuindo lacunas sobre navegações estritamente auditivas.
+`[HIPÓTESE — VALIDAR]` Como as diretrizes do e-MAG são efetivamente fiscalizadas em auditorias de URAs telefônicas, dado que o modelo concentra-se em interfaces web visuais. `[MÉTRICA AUSENTE — fonte sugerida: relatórios de auditoria CGU sobre sistemas de URA da Caixa]`.
 
 ---
 
