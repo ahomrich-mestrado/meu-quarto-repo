@@ -22,20 +22,23 @@
 
 ## SEÇÃO 2 — Processos de Bastidor (Backstage)
 
-**Objetivo:** Mapear os processos fora da vista do cidadão, identificando ator responsável, sistema e janela temporal.
+**Objetivo:** Mapear os processos fora da vista do cidadão, identificando ator responsável, sistema, janela temporal e nível de bastidor (Backstage = acionado em resposta à interação; Processo de Suporte = estrutural/permanente).
 
-| Etapa da Jornada Correspondente | Ator Responsável (ID) | Processo / Ação | Sistema Envolvido | Janela Temporal | Dependência Crítica |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Transversal (Governança)** | **B** (CODEFAT), **C** (MTE), **F** (Caixa) | Tradução de novas Resoluções CODEFAT em regras de elegibilidade e scripts atualizados de URA. | Sistemas MTE e Dataprev; Scripts URA Caixa. | Janela de adequação variável pós-publicação. | Publicação do normativo no Diário Oficial. |
-| **Transversal (Controle)** | **I** (TCU/CGU) | Monitoramento e auditoria contínua da aplicação do FAT e contratos de terceirização. | Sistemas de controle e-TCE. | Contínuo / Periódico. | Prestação de contas enviada pelo MTE/Caixa. |
-| **Transversal (Sustentação)** | **K** (Fornecedores) | Manutenção de enlaces de telecomunicações, links SIP e licenças ativas do sistema URA. | Infraestrutura de rede externa. | SLA Contínuo (24/7). | Cumprimento contratual do fornecedor K. |
-| **1.1. Rescisão e Processamento** | **A** (Empregador), **D** (Dataprev), **C** (MTE) | Registro de desligamento (S-2299) no eSocial (A); processamento em lote (D); liberação para consulta (C). | eSocial, Sistemas Dataprev, Base MTE. | Até o 10º dia após a demissão (A) - (Art. 477, § 6º CLT / MOS eSocial). | Cumprimento do prazo legal pelo Empregador (A). |
-| **2 a 6. Autenticação e Interação** | **L** (TI Caixa) | Gravação ativa da chamada de voz (real-time) e arquivamento em storage para fins de compliance. | Servidores de Gravação / Storage. | `[HIPÓTESE — VALIDAR prazo legal ou contratual de retenção, ex: 90 dias via Dec 11.034]`. | Disponibilidade contínua de armazenamento. |
-| **2. Recepção e Autenticação** | **G** (Segurança), **O** (URA), **L** (TI) | URA captura CPF e NIS; aciona APIs contra a base usando regras dinâmicas KBA de segurança. | Gateway de APIs Caixa, Banco Cadastral. | Tempo real (milissegundos). | Base de dados acessível e regras de autenticação calibradas (G). |
-| **3. Navegação** | **P** (ASR/NLP), **O** (URA) | Conversão de áudio em texto (Speech-to-Text) e classificação de intenção (NLP). | Motor ASR/NLP integrado à URA. | Tempo real. | Estabilidade na rede (K) e clareza vocal. |
-| **4. Autoatendimento** | **F** (Caixa), **C** (MTE) | URA consome status de benefício atualizado pelo MTE e converte em voz (TTS). | API de Integração MTE-Caixa, Motor TTS. | `[HIPÓTESE — VALIDAR SLA D-1 na sincronia de dados MTE-Caixa]`. | Integração de lotes MTE-Caixa sem falhas de rede. |
-| **5. Atendimento Humano** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | ACD enfileira por skill; Atendente recebe a chamada **sem passagem automática de contexto** — no AS-IS **não se assume** Screen Pop/integração CTI-CRM; o cidadão **relata novamente o caso** (conforme Seção 1, Etapa 5); Supervisores (M) monitoram tráfego. | PABX/ACD, CRM, Dashboard CTI. | Fila: minutos; handoff de contexto **manual**. | Roteamento correto (J); no AS-IS, a passagem de contexto URA→atendente é manual (re-narração pelo cidadão). |
-| **6. Desfecho** | **Q** (Atendente) | Atendente realiza tipificação, gera protocolo e libera a baia. | CRM / Sistema de Bilhetagem. | `[HIPÓTESE — VALIDAR wrap-up time estimado de 30 a 60s]`. | Responsividade do sistema CRM. |
+| Etapa da Jornada Correspondente | Nível de Bastidor | Ator Responsável (ID) | Processo / Ação | Sistema Envolvido | Janela Temporal | Dependência Crítica |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Transversal (Governança Normativa)** | **Processo de Suporte** | **B** (CODEFAT), **C** (MTE), **F** (Caixa) | Tradução de novas Resoluções CODEFAT em regras de elegibilidade e scripts atualizados de URA. | Sistemas MTE e Dataprev; Scripts URA Caixa. | Janela de adequação variável pós-publicação. | Publicação do normativo no Diário Oficial. |
+| **Transversal (Controle / Auditoria)** | **Processo de Suporte** | **I** (TCU/CGU) | Monitoramento e auditoria contínua da aplicação do FAT e contratos de terceirização. | Sistemas de controle e-TCE. | Contínuo / Periódico. | Prestação de contas enviada pelo MTE/Caixa. |
+| **Transversal (Sustentação de Infraestrutura)** | **Processo de Suporte** | **K** (Fornecedores) | Manutenção de enlaces de telecomunicações, links SIP e licenças ativas do sistema URA. | Infraestrutura de rede externa. | SLA Contínuo (24/7). | Cumprimento contratual do fornecedor K. |
+| **Transversal (Gravação / Compliance)** | **Processo de Suporte** | **L** (TI Caixa) | Gravação ativa da chamada de voz (real-time) e arquivamento em storage para fins de compliance e LGPD. | Servidores de Gravação / Storage. | `[HIPÓTESE — VALIDAR prazo legal ou contratual de retenção, ex: 90 dias via Dec 11.034]`. | Disponibilidade contínua de armazenamento. |
+| **1.1. Rescisão e Processamento** | **Processo de Suporte** | **A** (Empregador), **D** (Dataprev), **C** (MTE) | Registro de desligamento (S-2299) no eSocial (A); processamento em lote (D); liberação para consulta (C). | eSocial, Sistemas Dataprev, Base MTE. | Até o 10º dia após a demissão (A) - (Art. 477, § 6º CLT / MOS eSocial). | Cumprimento do prazo legal pelo Empregador (A). |
+| **2. Recepção e Autenticação** | **Backstage** | **G** (Segurança), **O** (URA), **L** (TI) | URA captura CPF e NIS; aciona APIs contra a base usando regras dinâmicas KBA de segurança. | Gateway de APIs Caixa, Banco Cadastral. | Tempo real (milissegundos). | Base de dados acessível e regras de autenticação calibradas (G). |
+| **3. Navegação** | **Backstage** | **P** (ASR/NLP), **O** (URA) | Conversão de áudio em texto (Speech-to-Text) e classificação de intenção (NLP). | Motor ASR/NLP integrado à URA. | Tempo real. | Estabilidade na rede (K) e clareza vocal. |
+| **4. Autoatendimento** | **Backstage** | **F** (Caixa), **C** (MTE) | URA consome status de benefício atualizado pelo MTE e converte em voz (TTS). | API de Integração MTE-Caixa, Motor TTS. | `[HIPÓTESE — VALIDAR SLA D-1 na sincronia de dados MTE-Caixa]`. | Integração de lotes MTE-Caixa sem falhas de rede. |
+| **5. Atendimento Humano** | **Backstage** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | ACD enfileira por skill; Atendente recebe a chamada **sem passagem automática de contexto** — no AS-IS **não se assume** Screen Pop/integração CTI-CRM; o cidadão **relata novamente o caso** (conforme Seção 1, Etapa 5); Supervisores (M) monitoram tráfego. | PABX/ACD, CRM, Dashboard CTI. | Fila: minutos; handoff de contexto **manual**. | Roteamento correto (J); no AS-IS, a passagem de contexto URA→atendente é manual (re-narração pelo cidadão). |
+| **6. Desfecho** | **Backstage** | **Q** (Atendente) | Atendente realiza tipificação, gera protocolo e libera a baia. | CRM / Sistema de Bilhetagem. | `[HIPÓTESE — VALIDAR wrap-up time estimado de 30 a 60s]`. | Responsividade do sistema CRM. |
+
+**Lacunas desta seção:**
+As janelas temporais exatas de adequação de sistemas após publicação de Resoluções CODEFAT (Processo de Suporte: Governança Normativa) não foram encontradas em fontes públicas — `[MÉTRICA AUSENTE — fonte sugerida: contratos MTE/Caixa e relatórios TCU sobre FP-11]`. O SLA detalhado dos contratos de sustentação de infraestrutura (Ator K) e os prazos precisos de retenção de gravações (Ator L) carecem de confirmação documental pública.
 
 ---
 
@@ -57,33 +60,53 @@
 | **6. Desfecho** | Digital | Atualização persistente do período de benefício na CTPS Digital. | **C** (MTE) / **D** (Dataprev) | Consolidada no backstage como registro histórico inalterável do trabalhador. |
 | **6. Desfecho** | Auditiva | **Instrução verbal** de endereço/horário do SINE dada pelo atendente — comportamento-base confirmado do AS-IS. (Eventual comprovante por SMS é melhoria dependente de setup, **não assumida** no AS-IS.) | **Q** (Atendente) | Anotação manual difícil para quem está em trânsito; sem registro persistente, aumenta o risco de ida perdida à agência. |
 
+**Lacunas desta seção:**
+Não foram encontradas fontes públicas com especificações técnicas da locução TTS utilizada pela URA Caixa (voz, velocidade, vocabulário oficial). A existência de notificação por push/SMS via app Caixa Tem após resolução da chamada é `[HIPÓTESE — VALIDAR via testes reais ao 0800 726 0207 e logs de evento do app]`. O design exato das mensagens de erro ("benefício não localizado", "tente mais tarde") não foi confirmado por transcrição pública.
+
 ---
 
 ## SEÇÃO 4 — Normativos Aplicáveis
 
+**Objetivo:** Mapear os normativos por dimensão, com dispositivo específico, escopo no serviço, vínculo explícito ao processo de bastidor (Seção 2) ou etapa da jornada (Seção 1), e status de cumprimento verificável.
+
 ### 4A — Normativos do Benefício
-* **Lei 7.998/1990 (Artigos 2º e 3º):** Regula elegibilidade fundamental. `[CONFIRMADO]` (Auditoria TCU/CGU).
-* **Lei 10.779/2003 (Artigos 1º e 2º):** Institui Seguro Defeso. `[CONFIRMADO]`.
-* **Lei Complementar 150/2015 (Artigo 26):** Estende o Seguro-Desemprego às empregadas domésticas. `[CONFIRMADO]`.
-* **Decreto 7.721/2012:** Regulamenta procedimentos, prazos e habilitação. `[CONFIRMADO]`.
-* **Resolução CODEFAT nº 957/2022 (Artigos 4º a 12):** Consolida concessão e pagamento. *Nota:* Modificada parcialmente pela **Resolução CODEFAT nº 1027/2025**, que revogou o inciso V do art. 8º. `[CONFIRMADO]`.
-* **Portarias Específicas do MTE:** `[PENDENTE — identificar portarias específicas (ex: Portarias MTP) e artigos aplicáveis que balizam os status repassados pela URA]`.
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei 7.998/1990 | Arts. 2º e 3º | Elegibilidade fundamental do Seguro-Desemprego (tempo de emprego, natureza da rescisão) | **Processo de Suporte: Governança Normativa** (Seção 2, Transversal) → scripts de elegibilidade URA; Etapa 4 (consulta de status) | `[CONFIRMADO]` — fiscalização TCU/CGU; publicação DOU |
+| Lei 10.779/2003 | Arts. 1º e 2º | Institui o Seguro Defeso para pescadores artesanais | **Processo de Suporte: Governança Normativa** (Seção 2, Transversal) → modalidade Defeso; Etapa 2 (autenticação de modalidade) | `[CONFIRMADO]` — publicação DOU |
+| Lei Complementar 150/2015 | Art. 26 | Estende Seguro-Desemprego a empregadas domésticas | **Processo de Suporte: Governança Normativa** (Seção 2, Transversal) → modalidade Doméstico; Etapa 4 (status) | `[CONFIRMADO]` — publicação DOU |
+| Decreto 7.721/2012 | Arts. 1º a 20 | Regulamenta procedimentos, prazos e habilitação ao benefício | **Processo de Suporte: Governança Normativa** + **Backstage** (Seção 2, Etapa 1.1): fluxo eSocial → Dataprev → MTE → URA | `[CONFIRMADO]` — publicação DOU |
+| Resolução CODEFAT nº 957/2022 (mod. Res. 1027/2025, que revogou art. 8º, V) | Arts. 4º a 12; inciso V do art. 8º revogado | Consolida regras de concessão e pagamento; mod. relevante para Seguro Defeso (FP-10) | **Processo de Suporte: Governança Normativa** (Seção 2, Transversal) → atualização de scripts URA; FP-11 (lag de governança) | `[CONFIRMADO]` — publicação DOU; Res. 1027/2025 publicada em 04/11/2025 |
+| Portarias Específicas do MTE | A identificar (ex: Portarias MTP) | Detalham exigências documentais e status repassados pela URA | **Processo de Suporte: Governança Normativa** (Seção 2, Transversal); Etapa 4 | `[PENDENTE — identificar números e artigos aplicáveis via DOU/MTE]` |
 
 ### 4B — Normativos do Canal de Atendimento
-* **Decreto Federal nº 11.034/2022 (Nova Lei do SAC):** Substitui o Dec 6.523/08. `[HIPÓTESE — VALIDAR aplicabilidade jurídica]` (A Caixa é empresa pública operando benefício estatal delegado, a aplicabilidade irrestrita das métricas do CDC a este cenário específico demanda jurisprudência).
-* **Portaria SENACON 15/2022:** `[PENDENTE / EM ABERTO]` (Existência e publicidade como regulamentação direta do SAC não estabelecida/verificável nas bases pesquisadas).
-* **Regulamento Geral de Direitos do Consumidor de Serviços de Telecomunicações (RGC) — Resolução ANATEL nº 632/2014 (art. 1º — âmbito de aplicação):** instrumento aplicável ao canal. **Validação de escopo:** o art. 1º do RGC delimita sua aplicação às prestadoras dos serviços de telecomunicações de interesse coletivo — **STFC**, SMP, SCM e SeAC — confirmando que o **STFC** (serviço sob o qual operam os números 0800) está **expressamente** abrangido. Rege deveres de atendimento telefônico e de centrais (SAC de telecom). **Substitui, neste Blueprint, a citação anterior da Resolução nº 605/2012** — cujo escopo (RGQ-SCM/SMP) cobre banda larga e celular, **não** o STFC/0800. `[CONFIRMADO]` (norma vigente; escopo STFC validado pelo próprio art. 1º).
 
-  > **Nota de Defesa de Fato (resolução do NF-4 apontado pela auditoria_v2):** Os números 0800 no Brasil são ofertados exclusivamente por prestadoras de **STFC** licenciadas pela ANATEL; a ANATEL os classifica como Serviço de Utilidade Pública (SUP) operado sobre infraestrutura STFC — regime aplicável ao número 0800 726 0207 da Caixa. A Resolução nº 605/2012 tem como objeto o **RGQ-SCM/SMP** (Regulamento de Gestão da Qualidade para SCM/banda larga e SMP/celular), o que incompatibiliza seu escopo com a regulação de chamadas originadas em STFC/0800. O RGC 632/2014, ao incluir expressamente o STFC em seu art. 1º, é o instrumento regulatório correto para este canal. A citação ao 605/2012 foi **removida na íntegra** e **não é mais referenciada** neste Blueprint. O risco de escopo levantado pela auditoria — norma SCM/SMP aplicada a serviço STFC — **deixa de existir** com a adoção do RGC 632/2014 como única âncora regulatória do canal de atendimento.
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Decreto Federal nº 11.034/2022 (Nova Lei do SAC) | Arts. 1º–30 (prazo de atendimento, obrigatoriedade de transbordo, TMA) | Substitui Dec. 6.523/2008; regula SAC telefônico e métricas de qualidade de atendimento | **Backstage: Atendimento Humano** (Seção 2, Etapa 5); FP-07 (TMA); **Processo de Suporte: Sustentação** (contratual) | `[HIPÓTESE — VALIDAR aplicabilidade jurídica à CEF como empresa pública operando benefício estatal delegado]` |
+| Portaria SENACON 15/2022 | A identificar | Regulamentação complementar do SAC | **Backstage: Atendimento Humano** (Seção 2, Etapa 5) | `[PENDENTE / EM ABERTO]` — existência e publicidade não verificadas nas bases pesquisadas |
+| RGC — Resolução ANATEL nº 632/2014 | Art. 1º (âmbito: STFC, SMP, SCM, SeAC) | Regula deveres de atendimento das prestadoras STFC/0800; inclui deveres de qualidade do canal | **Processo de Suporte: Sustentação de Infraestrutura** (Seção 2, Transversal/Ator K); Etapa 1.2 (discagem 0800 sobre STFC) | `[CONFIRMADO]` — norma vigente; escopo STFC validado pelo art. 1º; ver Nota de Defesa de Fato abaixo |
+
+> **Nota de Defesa de Fato (resolução do NF-4 da auditoria_v2):** Os números 0800 são ofertados por prestadoras de **STFC** licenciadas pela ANATEL (Serviço de Utilidade Pública sobre STFC). A Res. 605/2012 regula métricas SCM/SMP (banda larga/celular) — escopo incompatível com STFC/0800. O RGC 632/2014, ao incluir o STFC expressamente em seu art. 1º, é o instrumento correto. A Res. 605/2012 foi **removida na íntegra** deste Blueprint.
 
 ### 4C — Normativos de Tecnologia e Dados
-* **Lei 13.709/2018 (LGPD) (Arts. 7º, II e 11, II):** Tratamento para política pública e autenticação. `[CONFIRMADO]`.
-* **Decreto 10.046/2019:** Compartilhamento federal de dados. `[CONFIRMADO]`.
-* **Portaria SLTI/MP nº 3/2007 (e-MAG):** Modelo de Acessibilidade. `[HIPÓTESE — VALIDAR método de fiscalização aplicável]` (Focado primariamente em web, sem especificações suficientes para URAs telefônicas).
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei 13.709/2018 (LGPD) | Arts. 7º, II e 11, II | Tratamento de dados pessoais para política pública (base legal) e autenticação KBA | **Processo de Suporte: Gravação/Compliance** (Seção 2, Transversal/Ator L); **Backstage** Etapa 2 (KBA/Ator G) | `[CONFIRMADO]` — obrigação legal; fiscalização ANPD |
+| Decreto 10.046/2019 | Arts. 1º–15 | Compartilhamento federal de dados entre órgãos (eSocial → Dataprev → MTE → Caixa) | **Backstage** (Seção 2, Etapa 1.1): cadeia eSocial → Dataprev → MTE → URA | `[CONFIRMADO]` — publicação DOU |
+| Portaria SLTI/MP nº 3/2007 (e-MAG) | Arts. 1º–8 | Modelo de Acessibilidade em Governo Eletrônico — aplicabilidade à interface de voz da URA | **Backstage** (Seção 2, Etapas 2, 3, 4): interface DTMF/TTS da URA (Ator O) | `[HIPÓTESE — VALIDAR método de fiscalização aplicável a URAs telefônicas; norma focada primariamente em web]` |
 
 ### 4D — Normativos de Controle e Governança
-* **Lei 14.133/2021 (Arts. 11 e 75):** Licitações do call center. `[CONFIRMADO]`.
-* **IN TCU 84/2020:** Prestação de contas do FAT. `[CONFIRMADO]`.
+
+| Instrumento | Dispositivo Específico | O que regula no serviço | Processo vinculado | Status de Cumprimento Verificável |
+| :--- | :--- | :--- | :--- | :--- |
+| Lei 14.133/2021 | Arts. 11 e 75 | Licitações e contratos de call center terceirizado | **Processo de Suporte: Sustentação de Infraestrutura** (Seção 2, Transversal/Ator K); vínculo contratual do Atendente Q | `[CONFIRMADO]` — publicação DOU; fiscalização CGU/TCU |
+| IN TCU 84/2020 | Arts. 1º–30 | Prestação de contas do FAT; auditoria da aplicação dos recursos | **Processo de Suporte: Controle/Auditoria** (Seção 2, Transversal/Ator I) | `[CONFIRMADO]` — publicação DOU; obrigação de prestação de contas MTE/Caixa |
+
+**Lacunas desta seção:**
+As Portarias Específicas do MTE (4A) não foram identificadas por número e ano nas fontes pesquisadas — `[PENDENTE — validar via Diário Oficial e base normativa do MTE]`. A Portaria SENACON 15/2022 (4B) teve existência e publicidade não confirmadas. O "Status de Cumprimento Verificável" dos normativos de tecnologia (e-MAG e LGPD aplicada a URA) carece de mecanismo de aferição pública específico para atendimento telefônico — `[MÉTRICA AUSENTE — fonte sugerida: relatórios de auditoria ANPD/CGU sobre sistemas de URA]`.
 
 ---
 
@@ -107,6 +130,9 @@
 | **FP-12** | Autenticação | **G** (Segurança) / **O** | Técnica / Segurança | Bloqueio sistêmico por fraude ou esgotamento KBA por terceiros. | Cidadão autêntico descobre que foi bloqueado externamente. | Imobilização da conta do trabalhador sem ação de sua parte. | `[HIPÓTESE — VALIDAR via logs antifraude e agências físicas]`. |
 | **FP-13** | Autoatend. | **C** (MTE) / **D** | Dados / Processo | Cidadão com histórico passado e cadastro bancário divergente. | Falha no roteamento de pagamento; conflito web vs bancário. | Reprocessamento manual e retenção financeira prolongada. | `[HIPÓTESE — VALIDAR avaliando retornos de DOC/TED]`. |
 | **FP-14** | Desfecho | **Q** (Atendente) / **O** | Normativa / Comportamental | Negativa de benefício sem instrução legal sobre recurso à DPU. | Lacuna de acesso à Justiça por falta de letramento. | Redução não natural da taxa de reversão de benefícios indevidamente negados. | `[HIPÓTESE — VALIDAR via revisão de biblioteca de scripts]`. |
+
+**Lacunas desta seção:**
+Os dados de frequência real de cada fail point (volumes, taxas de ocorrência, distribuição por modalidade de benefício) são `[MÉTRICA AUSENTE — fonte sugerida: Ouvidoria Caixa, relatórios TCU sobre contratos de call center, boletins DIEESE]`. Não há fonte pública confirmada para validação simultânea dos 14 fail points mapeados. FP-10 (pescador fora da janela de defeso) carece de dados públicos sobre volume de chamadas por período de defeso.
 
 ---
 
