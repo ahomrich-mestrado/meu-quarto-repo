@@ -129,17 +129,24 @@ Para cada processo de bastidor, entregue:
 | Campo | Descrição exigida |
 |-------|-------------------|
 | **Etapa da Jornada Correspondente** | Vincular à etapa nomeada na Seção 1 |
+| **Nível de Bastidor** | Classificar **obrigatoriamente** como `Backstage` (processo acionado em resposta à interação) ou `Processo de Suporte` (processo estrutural/permanente), conforme a linha de interação interna de Shostack |
 | **Ator Responsável** | ID e nome do ator (Bloco 2) |
 | **Processo / Ação** | O que ocorre operacionalmente |
 | **Sistema Envolvido** | Nome da plataforma ou sistema (eSocial, Dataprev, ACD, etc.) |
 | **Janela Temporal** | Duração estimada ou frequência (ex: lote noturno, tempo real, semanal) |
 | **Dependência Crítica** | De qual dado ou ação anterior este processo depende |
 
-Atenção especial obrigatória para:
+**Atenção especial obrigatória (Backstage — resposta à interação):**
 - O fluxo de dados eSocial → Dataprev → MTE → URA Caixa (cadeia de geração do dado consultado)
 - O processo de autenticação KBA configurado pela área de Segurança da Informação (Ator G)
 - O algoritmo de roteamento do ACD/CTI (Ator J) no momento do transbordo
 - O processo de tabulação e encerramento de chamada pelo atendente terceirizado
+
+**Atenção especial obrigatória (Processos de Suporte — estruturais):** é obrigatório pesquisar e detalhar, com ator, sistema e janela temporal, cada um dos quatro processos de suporte abaixo (não tratá-los apenas como contexto):
+- **Governança normativa:** o processo pelo qual novas Resoluções do CODEFAT (Ator B) são traduzidas em regras de elegibilidade e scripts da URA pelo MTE/Caixa, incluindo a janela de descompasso entre publicação no DOU e atualização dos sistemas.
+- **Sustentação de infraestrutura:** manutenção dos enlaces de telecom, links SIP, licenças de URA (Ator K) e disponibilidade dos bancos de dados legados da Caixa (Ator L), com seus SLAs e janelas de manutenção.
+- **Controle e auditoria:** o monitoramento contínuo e reativo de TCU/CGU (Ator I) sobre a aplicação do FAT e os contratos de terceirização, e como ele realimenta as regras de design do serviço.
+- **Gravação e compliance:** o processo permanente de gravação das chamadas em tempo real, armazenamento e período de retenção (Ator L), com as implicações de LGPD.
 
 ---
 
@@ -207,6 +214,7 @@ Para cada normativo, entregue:
 | **Instrumento** | Tipo, número e ano |
 | **Dispositivo Específico** | Artigo(s) ou inciso(s) relevantes |
 | **O que regula no serviço** | A qual aspecto do Blueprint se aplica |
+| **Processo vinculado** | **Obrigatório:** vincular o normativo ao processo de **Backstage** ou de **Suporte** (Seção 2) ou à etapa da jornada (Seção 1) que ele governa — ex.: LGPD → processo de gravação/compliance; Lei 14.133/2021 → sustentação contratada; Resolução CODEFAT → governança normativa/scripts da URA |
 | **Status de Cumprimento Verificável** | Indicar se há mecanismo de aferição pública do cumprimento |
 
 ---
