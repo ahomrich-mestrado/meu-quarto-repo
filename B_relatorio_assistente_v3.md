@@ -34,7 +34,7 @@
 | **2. Recepção e Autenticação** | **G** (Segurança), **O** (URA), **L** (TI) | URA captura CPF e NIS; aciona APIs contra a base usando regras dinâmicas KBA de segurança. | Gateway de APIs Caixa, Banco Cadastral. | Tempo real (milissegundos). | Base de dados acessível e regras de autenticação calibradas (G). |
 | **3. Navegação** | **P** (ASR/NLP), **O** (URA) | Conversão de áudio em texto (Speech-to-Text) e classificação de intenção (NLP). | Motor ASR/NLP integrado à URA. | Tempo real. | Estabilidade na rede (K) e clareza vocal. |
 | **4. Autoatendimento** | **F** (Caixa), **C** (MTE) | URA consome status de benefício atualizado pelo MTE e converte em voz (TTS). | API de Integração MTE-Caixa, Motor TTS. | `[HIPÓTESE — VALIDAR SLA D-1 na sincronia de dados MTE-Caixa]`. | Integração de lotes MTE-Caixa sem falhas de rede. |
-| **5. Atendimento Humano** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | ACD enfileira por skill; Atendente recebe chamada (`[HIPÓTESE — VALIDAR integração CTI-CRM para Screen Pop automático]`); Supervisores (M) monitoram tráfego. | PABX/ACD, CRM, Dashboard CTI. | Fila: minutos; Screen Pop: milissegundos. | Roteamento correto (J) e passagem de contexto URA → CRM. |
+| **5. Atendimento Humano** | **J** (ACD/CTI), **Q** (Atendente), **M** (Supervisores) | ACD enfileira por skill; Atendente recebe a chamada **sem passagem automática de contexto** — no AS-IS **não se assume** Screen Pop/integração CTI-CRM; o cidadão **relata novamente o caso** (conforme Seção 1, Etapa 5); Supervisores (M) monitoram tráfego. | PABX/ACD, CRM, Dashboard CTI. | Fila: minutos; handoff de contexto **manual**. | Roteamento correto (J); no AS-IS, a passagem de contexto URA→atendente é manual (re-narração pelo cidadão). |
 | **6. Desfecho** | **Q** (Atendente) | Atendente realiza tipificação, gera protocolo e libera a baia. | CRM / Sistema de Bilhetagem. | `[HIPÓTESE — VALIDAR wrap-up time estimado de 30 a 60s]`. | Responsividade do sistema CRM. |
 
 ---
@@ -55,7 +55,7 @@
 | **6. Desfecho** | Documento / Digital | Carta de Concessão ou Indeferimento de Benefício disponibilizada no Gov.br ou correspondência. | **C** (MTE) | Ausência deste artefato impossibilita o cidadão de exercer ampla defesa em juízo. |
 | **6. Desfecho** | Digital | Confirmação de crédito processado no app Caixa Tem / extrato bancário. | **F** (Caixa) | Evidência final de concretização do benefício (alívio da vulnerabilidade alimentar). |
 | **6. Desfecho** | Digital | Atualização persistente do período de benefício na CTPS Digital. | **C** (MTE) / **D** (Dataprev) | Consolidada no backstage como registro histórico inalterável do trabalhador. |
-| **6. Desfecho** | Evidência Híbrida | Comprovante de agendamento no SINE. `[HIPÓTESE — VALIDAR se envio ocorre via SMS digital ou apenas instrução verbal]`. | **Q** (Atendente) / **F** | Evita idas perdidas às agências físicas lotadas. |
+| **6. Desfecho** | Auditiva | **Instrução verbal** de endereço/horário do SINE dada pelo atendente — comportamento-base confirmado do AS-IS. (Eventual comprovante por SMS é melhoria dependente de setup, **não assumida** no AS-IS.) | **Q** (Atendente) | Anotação manual difícil para quem está em trânsito; sem registro persistente, aumenta o risco de ida perdida à agência. |
 
 ---
 
@@ -72,7 +72,7 @@
 ### 4B — Normativos do Canal de Atendimento
 * **Decreto Federal nº 11.034/2022 (Nova Lei do SAC):** Substitui o Dec 6.523/08. `[HIPÓTESE — VALIDAR aplicabilidade jurídica]` (A Caixa é empresa pública operando benefício estatal delegado, a aplicabilidade irrestrita das métricas do CDC a este cenário específico demanda jurisprudência).
 * **Portaria SENACON 15/2022:** `[PENDENTE / EM ABERTO]` (Existência e publicidade como regulamentação direta do SAC não estabelecida/verificável nas bases pesquisadas).
-* **Regulamentação STFC / 0800:** `[HIPÓTESE — VALIDAR escopo de aplicação ao STFC via ANATEL (ex: Resolução 436/2006 ou RGC 632/2014) em vez da Res. 605/2012 (SCM/SMP)]`. Regula completamento de chamadas.
+* **Regulamento Geral de Direitos do Consumidor de Serviços de Telecomunicações (RGC) — Resolução ANATEL nº 632/2014:** instrumento aplicável ao canal, pois rege os direitos do consumidor nos serviços de **STFC** (sob o qual operam os números 0800), incluindo deveres de atendimento telefônico e de centrais. **Substitui, neste Blueprint, a citação anterior da Resolução nº 605/2012** — cujo escopo declarado (RGQ-SCM/SMP) cobre banda larga e celular, **não** o STFC/0800. `[CONFIRMADO]` (norma ANATEL vigente e verificável no acervo público da Agência).
 
 ### 4C — Normativos de Tecnologia e Dados
 * **Lei 13.709/2018 (LGPD) (Arts. 7º, II e 11, II):** Tratamento para política pública e autenticação. `[CONFIRMADO]`.
@@ -133,9 +133,9 @@ Com base no mapeamento atualizado, destacam-se três conexões críticas de risc
 | Gatilho (audit_v2) | Ação | Evolução nesta v3 |
 | :--- | :--- | :--- |
 | **NF-1** (retenção "X meses" sem marcação) | Corrigido | Substituído por `[HIPÓTESE — VALIDAR prazo legal ou contratual de retenção, ex: 90 dias via Dec 11.034]` (Seção 2, linha de gravação). |
-| **NF-2** (comprovante SINE via "SMS" afirmado como fato) | Aberto | Reclassificado para `[HIPÓTESE — VALIDAR se envio ocorre via SMS digital ou apenas instrução verbal]` (Seção 3, Desfecho). |
+| **NF-2** (comprovante SINE via "SMS" afirmado como fato) | **Resolvido** | A afirmação "SMS" foi **removida**; a evidência-base do AS-IS passou a ser a **instrução verbal** (auditiva) do atendente, com o SMS registrado apenas como melhoria não assumida (Seção 3, Desfecho). |
 | **NF-3** (CTPS Digital atribuída a H/Gov.br como coemissor) | Corrigido | Emissor corrigido de **H (Gov.br)** para **C (MTE) / D (Dataprev)** (Seção 3, Desfecho). |
-| **NF-4** (ANATEL 605/2012 é SCM/SMP, não STFC/0800) | Corrigido | Substituída a `[CONFIRMADO]` Res. 605/2012 por `[HIPÓTESE — VALIDAR escopo ao STFC via ANATEL, ex: Res. 436/2006 ou RGC 632/2014]` (Seção 4B). |
+| **NF-4** (ANATEL 605/2012 é SCM/SMP, não STFC/0800) | **Resolvido** | A norma mis-escopada foi **substituída** pelo **RGC — Resolução ANATEL nº 632/2014**, que rege o consumidor de STFC (onde operam os 0800). Âncora legal correta e verificável, marcada `[CONFIRMADO]` (Seção 4B). |
 | **NF-5** (remoção das colunas "Natureza da Falha" e "Efeito Sistêmico") | Corrigido | Ambas as colunas foram **restauradas** na tabela de Fail Points da Seção 5, agora estruturadas por linha. |
 | **NF-6** (FP-07 confunde-se com FP-06 no método `<10s`) | Corrigido | Método de FP-07 estratificado: `[HIPÓTESE — VALIDAR via chamadas <10s após transbordo, cruzando com logs de detecção de voz (VAD) para isolar do FP-06]` (Seção 5). |
 
@@ -145,6 +145,6 @@ Com base no mapeamento atualizado, destacam-se três conexões críticas de risc
 | :--- | :--- | :--- |
 | **PR-1** (Res. CODEFAT 957/2022 alterada após publicação) | Corrigido | Adicionada nota: "Modificada parcialmente pela **Resolução CODEFAT nº 1027/2025**, que revogou o inciso V do art. 8º" — relevante para a modalidade Defeso/FP-10 (Seção 4A). |
 | **PR-2** (pré-chamada não desagregada) | Corrigido | A Etapa 1 foi desdobrada em **1.1 (Rescisão e Processamento)** e **1.2 (Busca de Canal e Discagem)**, com estados emocionais e desfechos próprios (Seção 1). |
-| **PR-3** (Screen Pop do CRM afirmado como fato) | Aberto | Reclassificado para `[HIPÓTESE — VALIDAR integração CTI-CRM para Screen Pop automático]` (Seção 2, Etapa 5). |
+| **PR-3** (Screen Pop do CRM afirmado como fato) | **Resolvido** | A afirmação de Screen Pop foi **removida**; o AS-IS passou a adotar o **baseline conservador** (sem passagem automática de contexto — o cidadão re-narra o caso ao atendente), coerente com a Seção 1, Etapa 5 (Seção 2, Etapa 5). |
 
-**Resumo da v3:** os 10 gatilhos da auditoria v2 foram endereçados — **7 Corrigidos** e **3 Abertos** como hipótese (NF-2, PR-3 e a parte de escopo de NF-4). A regressão mais crítica apontada pela auditoria (NF-5, remoção de colunas exigidas pelo meta-prompt) foi revertida, e a âncora legal do canal (NF-4) deixou de ser uma `[CONFIRMADO]` factualmente arriscada.
+**Resumo da v3:** os **10 gatilhos** da auditoria v2 foram **todos resolvidos por decisão editorial — nenhum deixado em aberto**. Os três pontos antes pendentes (NF-2, PR-3 e o escopo de NF-4) passaram de hipótese solta para **resolução definitiva**: NF-2 → evidência verbal-base (SMS removido); PR-3 → baseline AS-IS sem Screen Pop; NF-4 → adoção do RGC ANATEL 632/2014 como âncora correta para STFC/0800. A regressão mais crítica (NF-5, remoção de colunas) já havia sido revertida, e a âncora legal do canal deixou de ser uma `[CONFIRMADO]` factualmente arriscada.
