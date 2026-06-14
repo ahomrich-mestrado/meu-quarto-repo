@@ -1,4 +1,3 @@
-# C_metaprompt_blueprint_ASIS
 ## Meta-Prompt: Pesquisa Estruturada para Service Blueprint AS-IS
 ### Serviço: Atendimento ao Seguro-Desemprego via URA — Caixa Econômica Federal
 
@@ -116,7 +115,7 @@ Cubra obrigatoriamente as seguintes etapas macro (desdobrando em sub-etapas quan
 
 ---
 
-### SEÇÃO 2 — Processos de Bastidor (Backstage)
+### SEÇÃO 2 — Processos de Bastidor e Processos de Suporte
 
 **Objetivo:** Para cada etapa da Seção 1, mapear os processos executados fora da vista do cidadão, identificando o ator responsável (usar IDs A–S do Bloco 2), o sistema envolvido e a janela temporal quando conhecida.
 
@@ -136,17 +135,49 @@ Para cada processo de bastidor, entregue:
 | **Janela Temporal** | Duração estimada ou frequência (ex: lote noturno, tempo real, semanal) |
 | **Dependência Crítica** | De qual dado ou ação anterior este processo depende |
 
-**Atenção especial obrigatória (Backstage — resposta à interação):**
-- O fluxo de dados eSocial → Dataprev → MTE → URA Caixa (cadeia de geração do dado consultado)
-- O processo de autenticação KBA configurado pela área de Segurança da Informação (Ator G)
-- O algoritmo de roteamento do ACD/CTI (Ator J) no momento do transbordo
-- O processo de tabulação e encerramento de chamada pelo atendente terceirizado
+**ATENÇÃO ESPECIAL OBRIGATÓRIA — Processos de Suporte Estruturais (não tratá-los como contexto, detalhar cada um com própria subseção):**
 
-**Atenção especial obrigatória (Processos de Suporte — estruturais):** é obrigatório pesquisar e detalhar, com ator, sistema e janela temporal, cada um dos quatro processos de suporte abaixo (não tratá-los apenas como contexto):
-- **Governança normativa:** o processo pelo qual novas Resoluções do CODEFAT (Ator B) são traduzidas em regras de elegibilidade e scripts da URA pelo MTE/Caixa, incluindo a janela de descompasso entre publicação no DOU e atualização dos sistemas.
-- **Sustentação de infraestrutura:** manutenção dos enlaces de telecom, links SIP, licenças de URA (Ator K) e disponibilidade dos bancos de dados legados da Caixa (Ator L), com seus SLAs e janelas de manutenção.
-- **Controle e auditoria:** o monitoramento contínuo e reativo de TCU/CGU (Ator I) sobre a aplicação do FAT e os contratos de terceirização, e como ele realimenta as regras de design do serviço.
-- **Gravação e compliance:** o processo permanente de gravação das chamadas em tempo real, armazenamento e período de retenção (Ator L), com as implicações de LGPD.
+É **obrigatório pesquisar e detalhar explicitamente** cada um dos quatro pilares de suporte abaixo. Cada um deve ter sua própria tabela/subseção com ator responsável, sistema, janela temporal e vínculo explícito ao Blueprint:
+
+#### 2.1 — Governança Normativa (Ator B — CODEFAT)
+- **O quê:** Processo pelo qual novas Resoluções do CODEFAT são traduzidas em regras de elegibilidade, status de benefício e scripts da URA pelo MTE/Caixa
+- **Quem:** Ator B (CODEFAT), Ator C (MTE), Ator F (Caixa)
+- **Como:** Publicação no DOU → análise → codificação em regras → atualização nos scripts da URA
+- **Janela temporal:** Prazo de adequação entre publicação e atualização dos sistemas (estimar em dias? semanas?)
+- **Impacto no Blueprint:** Define quais regras de elegibilidade são consultadas em cada etapa da jornada (especialmente Seção 4)
+- **Fail point associado:** Lag de governança (script desatualizado) → cidadão recebe orientação por norma revogada
+
+#### 2.2 — Sustentação de Infraestrutura (Ator K — Telecom, Ator L — TI Caixa)
+- **O quê:** Manutenção permanente dos enlaces de telecom, links SIP, licenças de URA e disponibilidade de bancos de dados legados
+- **Quem:** Ator K (Fornecedores de Telecom), Ator L (Equipes de TI Caixa)
+- **Como:** SLAs de uptime 24/7, janelas de manutenção, redundância, failover
+- **Janela temporal:** SLAs específicos (99.9%? 99.99%?), janelas de manutenção (horários e frequência)
+- **Impacto no Blueprint:** Determina a disponibilidade contínua da URA e os fail points de indisponibilidade
+- **Fail point associado:** BD legado fora do ar → chamada derrubada; queda de transbordo → cidadão perdido entre URA e atendente
+
+#### 2.3 — Controle e Auditoria (Ator I — TCU/CGU)
+- **O quê:** Monitoramento contínuo de TCU/CGU sobre a aplicação orçamentária do FAT, contratos de terceirização e conformidade regulatória
+- **Quem:** Ator I (TCU/CGU), Ator C (MTE), Ator F (Caixa)
+- **Como:** Auditorias periódicas, revisão de contratos, avaliação de processos de atendimento, investigação de denúncias
+- **Janela temporal:** Frequência de auditorias (anual? trimestral?), prazos de resposta a questionamentos, ciclos de conformidade
+- **Impacto no Blueprint:** Regras de design do serviço (TMA, taxa de abandono, qualidade, transbordo obrigatório) são frequentemente reconfiguradas por achados de auditoria
+- **Fail point associado:** Pressão de TMA pode levar ao desligamento prematuro de chamada → negar benefício sem instrução de recurso
+
+#### 2.4 — Gravação e Compliance LGPD (Ator L — TI Caixa, Ator G — Segurança)
+- **O quê:** Processo permanente de gravação de chamadas em tempo real, armazenamento criptografado, período de retenção e destruição segura
+- **Quem:** Ator L (TI Caixa), Ator G (Segurança da Informação), Ator I (TCU/CGU para auditoria)
+- **Como:** Captura de áudio → encriptação → armazenamento seguro → retenção por X meses → destruição segura
+- **Janela temporal:** Período de retenção (90 dias conforme Decreto 11.034/2022? 6 meses? Lei?)
+- **Impacto no Blueprint:** Determina quais dados da jornada permanecem acessíveis para auditoria e quanto tempo; implicações de LGPD para direito ao esquecimento
+- **Fail point associado:** Falha de compliance (perdida de gravação) → impossibilidade de auditoria; retenção excessiva → violação LGPD
+
+---
+
+**Atenção especial obrigatória (Backstage — resposta à interação):**
+- O fluxo de dados eSocial → Dataprev → MTE → URA Caixa (cadeia de geração do dado consultado em tempo real)
+- O processo de autenticação KBA configurado pela área de Segurança da Informação (Ator G) — como regras são endurecidas/flexibilizadas e seus critérios
+- O algoritmo de roteamento do ACD/CTI (Ator J) no momento do transbordo — critérios de skill-based routing, filas e balanceamento
+- O processo de tabulação e encerramento de chamada pelo atendente terceirizado (Ator Q) — como impacta métricas (TME, TMA, FCR)
 
 ---
 
@@ -214,14 +245,33 @@ Para cada normativo, entregue:
 | **Instrumento** | Tipo, número e ano |
 | **Dispositivo Específico** | Artigo(s) ou inciso(s) relevantes |
 | **O que regula no serviço** | A qual aspecto do Blueprint se aplica |
-| **Processo vinculado** | **Obrigatório:** vincular o normativo ao processo de **Backstage** ou de **Suporte** (Seção 2) ou à etapa da jornada (Seção 1) que ele governa — ex.: LGPD → processo de gravação/compliance; Lei 14.133/2021 → sustentação contratada; Resolução CODEFAT → governança normativa/scripts da URA |
-| **Status de Cumprimento Verificável** | Indicar se há mecanismo de aferição pública do cumprimento |
+| **Processo vinculado (OBRIGATÓRIO)** | Vincular **explicitamente** o normativo ao processo de **Backstage** ou de **Suporte Estrutural** (Seção 2, sub-seções 2.1–2.4) ou à etapa da jornada (Seção 1) que ele governa. **Exemplos obrigatórios de linkagem:** Lei 14.133/2021 → Sustentação Contratada (2.2), Resoluções CODEFAT → Governança Normativa (2.1), Decreto 11.034/2022 → Gravação/Compliance (2.4), LGPD → Gravação/Compliance (2.4), Lei 6.523/2008 → Etapa 5 (Atendimento Humano). **Não listar o normativo sem linkar a um processo específico.** |
+| **Status de Cumprimento Verificável** | Indicar se há mecanismo de aferição pública do cumprimento (ex: relatórios TCU publicados, processos auditáveis, métricas de SLA) |
+
+---
+
+#### Tabela de Vinculação Obrigatória — Normativos × Processos
+
+Após listar todos os normativos nas sub-seções 4A–4D, produza uma tabela de síntese que explicite cada linkagem:
+
+| Normativo | Artigo | Governa qual Processo de Suporte (Seção 2)? | Governa qual Etapa da Jornada (Seção 1)? | Mecanismo de Verificação |
+|-----------|--------|------|------|----------|
+| Lei 7.998/1990 (Seguro-Desemprego) | Arts. 2–4 | Governança Normativa (2.1) | Etapas 1, 2, 4, 6 | Portarias MTE, resoluções CODEFAT |
+| Lei 10.779/2003 (Defeso) | Arts. 1–3 | Governança Normativa (2.1) | Etapas 2, 4 (elegibilidade temporal) | Calendários IBAMA, resoluções |
+| Decreto 7.721/2012 | Art. 8 | Governança Normativa (2.1) | Etapas 1, 4 (prazos) | Análise de conformidade |
+| Res. CODEFAT 957/2022 | Arts. variados | Governança Normativa (2.1) | Etapas 3, 4 (status, scripts) | Auditoria de scripts URA |
+| Decreto 6.523/2008 (Lei do SAC) | Arts. 6–7 | Sustentação Contratada (2.2) + Etapa 5 | Etapas 5, 6 (transbordo, TMA) | Logs de fila, métricas ACD |
+| e-PING 2023 | Padrões de interop. | Backstage — Integração Sistemas | Etapas 2–4 (APIs, dados) | Validação de conformidade gov.br |
+| LGPD — Lei 13.709/2018 | Arts. 5, 7, 17 | Gravação/Compliance (2.4) | Todas as etapas (direito ao esquecimento) | Registros de exclusão de dados, auditorias DPA |
+| Decreto 10.046/2019 | Arts. 5–6 | Backstage — Compartilhamento de Dados | Etapas 2, 4 (APIs, CNIS, MTE) | Acordos de compartilhamento gov.br |
+| Lei 14.133/2021 (Licitações) | Arts. 20, 37 | Sustentação Contratada (2.2) | Todos os atores terceirizados | Editais, contratos publicados |
+| IN TCU 84/2020 | Capítulo III | Controle e Auditoria (2.3) | Processos de Suporte estruturais | Relatórios de conformidade TCU |
 
 ---
 
 ### SEÇÃO 5 — Fail Points Conhecidos
 
-**Objetivo:** Mapear os pontos de falha confirmados ou hipotéticos, vinculando cada um à etapa da jornada, ao ator causador, ao impacto no cidadão e ao status de evidência.
+**Objetivo:** Mapear os pontos de falha confirmados ou hipotéticos, vinculando cada um à etapa da jornada, ao ator causador, à natureza da falha, ao impacto no cidadão e ao efeito sistêmico no ecossistema. Cada fail point deve ser **estruturado**, não apenas listado.
 
 Para cada fail point, entregue:
 
@@ -230,24 +280,46 @@ Para cada fail point, entregue:
 | **ID do Fail Point** | FP-01, FP-02... |
 | **Etapa da Jornada** | Onde na jornada (Seção 1) a falha se manifesta |
 | **Ator / Sistema Causador** | Quem ou o quê origina a falha (usar IDs A–S) |
-| **Natureza da Falha** | Técnica / Normativa / Comportamental / Dados |
-| **Descrição** | O que ocorre concretamente |
-| **Impacto no Cidadão** | Consequência direta na jornada |
-| **Efeito Sistêmico** | Onde a falha se propaga no ecossistema |
-| **Status de Evidência** | `CONFIRMADO` (fonte citada) ou `[HIPÓTESE — VALIDAR]` (método de validação sugerido) |
+| **Natureza da Falha (OBRIGATÓRIO)** | **Classificar obrigatoriamente em uma ou mais categorias:** `Técnica` (sistema falha, BDD down, API timeout), `Normativa` (lei muda, regra desatualizada, conflito regulatório), `Comportamental` (pressão de métrica leva ao desvio de protocolo), `Dados` (informação inconsistente, desatualizada ou corrompida). **Não deixar em branco — toda falha tem uma ou mais naturezas.** |
+| **Descrição** | O que ocorre concretamente (narrativa clara do cenário de falha) |
+| **Impacto no Cidadão** | Consequência direta na jornada (ex: "bloqueado na autenticação", "recebe informação errada", "perde chamada") |
+| **Efeito Sistêmico (OBRIGATÓRIO)** | Onde a falha **se propaga** no ecossistema além do cidadão. Exemplos: "causa religação desnecessária → pico de tráfego", "força migração forçada para SINE", "viola direito ao esquecimento (LGPD)", "gera demanda de revisão por DPU/Justiça", "pressiona superviso a reduzir TMA", "realimenta auditoria TCU". **Não deixar em branco — toda falha impacta além do cidadão.** |
+| **Status de Evidência** | `[CONFIRMADO]` (fonte citada) ou `[HIPÓTESE — VALIDAR]` (método de validação sugerido) |
 
-Cubra obrigatoriamente os seguintes fail points já sinalizados no mapeamento anterior (adicionar outros identificados na pesquisa):
+Cubra obrigatoriamente os seguintes fail points já sinalizados no mapeamento anterior (adicionar outros identificados na pesquisa). **Para cada um, detalhar Natureza + Efeito Sistêmico:**
 
-| ID | Origem | Descrição resumida |
-|----|--------|-------------------|
-| FP-01 | Ator A (Empregador) | Erro ou atraso no registro de rescisão no eSocial → "benefício não localizado" |
-| FP-02 | Ator D (Dataprev) | Atraso no processamento de lote → URA consulta base desatualizada |
-| FP-03 | Ator G (Segurança da Informação) | KBA excessivamente restritivo → cidadão legítimo bloqueado na autenticação |
-| FP-04 | Ator O (URA) | Árvore de navegação com profundidade excessiva ou becos sem saída → abandono |
-| FP-05 | Ator P (ASR/NLP) | Falha de reconhecimento de sotaque → ciclos de repetição até exaustão |
-| FP-06 | Ator J (ACD/CTI) | Queda de ligação no transbordo URA → atendente humano |
-| FP-07 | Ator Q (Atendente) | Encerramento prematuro de chamada por pressão de TMA |
-| FP-08 | Ator H (Gov.br) | Falha biométrica no canal digital → migração forçada para URA ou rede física |
+| ID | Origem | Descrição | Natureza | Efeito Sistêmico |
+|----|--------|-----------|----------|------------------|
+| FP-01 | Ator A (Empregador) | Erro ou atraso no registro de rescisão no eSocial | Dados / Normativa | Causa "benefício não localizado" → acionamento desnecessário do SINE ou Justiça |
+| FP-02 | Ator D (Dataprev) | Atraso no processamento de lote noturno | Técnica / Dados | URA consulta base desatualizada → conflito com Carteira Digital → religiações |
+| FP-03 | Ator G (Segurança da Informação) | KBA excessivamente restritivo (vínculos remotos não validam) | Normativa / Técnica | Cidadão legítimo bloqueado → migração forçada para agência física ou Justiça |
+| FP-04 | Ator O (URA) | Árvore de navegação com profundidade excessiva ou becos sem saída | Técnica / Comportamental | Cidadão desiste → abandono precoce + repetiçãosindesejada de chamadas (pico) |
+| FP-05 | Ator P (ASR/NLP) | Falha de reconhecimento de sotaque ou ruído ambiente | Técnica | Ciclos de "Não entendi" até exaustão → abandono + frustração acumulada |
+| FP-06 | Ator J (ACD/CTI) | Queda de ligação no transbordo URA-atendente | Técnica | Cidadão reinicia do zero; elevação do TME geral + churn de atendentes |
+| FP-07 | Ator Q (Atendente) | Encerramento prematuro de chamada por pressão de TMA | Comportamental | Pendência + possível violação Decreto 11.034/2022 → judicialização potencial |
+| FP-08 | Ator H (Gov.br) | Falha biométrica no canal digital força migração para URA | Técnica | URA não consegue resolver (Gov.br é canal primário) → "beco sem saída" institucional |
+
+---
+
+**Tabela de Síntese de Fail Points — Natureza × Efeito Sistêmico**
+
+Após detalhar todos os fail points, produza uma tabela de síntese agrupando por Natureza:
+
+| Natureza | Count | Exemplos de FPs | Efeito Sistêmico Agregado |
+|----------|-------|-----------------|--------------------------|
+| **Técnica** | ? | FP-02, FP-04, FP-05, FP-06, FP-08, ... | Indisponibilidade de canal; abandono; picos de tráfego; demand de infraestrutura |
+| **Normativa** | ? | FP-01, FP-03, FP-07, FP-11?, ... | Desatualização de regras; conflitos legais; reversão de negativas; demanda de revisão normativa |
+| **Comportamental** | ? | FP-07, FP-04?, ... | Desvio de protocolo; pressão sobre atendentes; possíveis violações de direitos |
+| **Dados** | ? | FP-02, FP-01, FP-13?, ... | Inconsistência entre canais; reprocessamento; retenção financeira |
+
+---
+
+**Método obrigatório de validação de cada FP:**
+
+Para cada fail point marcado como `[HIPÓTESE — VALIDAR]`, especificar **qual dado ou comportamento de campo confirmaria o fail point**. Exemplos:
+- FP-02 → Compara timestamp de atualização MTE com logs de consulta URA → se houver lag > X horas, confirma
+- FP-04 → Taxa de abandono em submenus específicos; log de "Não entendi" antes de desligamento
+- FP-07 → Registros de chamadas <30s pós-transbordo sem fala detectada; correlação com metas TMA em supervisoria
 
 ---
 
