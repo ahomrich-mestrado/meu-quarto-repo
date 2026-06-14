@@ -138,15 +138,30 @@ Com base no mapeamento atualizado, destacam-se três conexões críticas de risc
 | **NF-2** (comprovante SINE via "SMS" afirmado como fato) | **Resolvido** | A afirmação "SMS" foi **removida**; a evidência-base do AS-IS passou a ser a **instrução verbal** (auditiva) do atendente, com o SMS registrado apenas como melhoria não assumida (Seção 3, Desfecho). |
 | **NF-3** (CTPS Digital atribuída a H/Gov.br como coemissor) | Corrigido | Emissor corrigido de **H (Gov.br)** para **C (MTE) / D (Dataprev)** (Seção 3, Desfecho). |
 | **NF-4** (ANATEL 605/2012 é SCM/SMP, não STFC/0800) | **Resolvido — risco de escopo eliminado com defesa de fato** | A norma mis-escopada (605/2012, RGQ-SCM/SMP) foi **removida na íntegra** e **substituída** pelo **RGC — Resolução ANATEL nº 632/2014**, cujo art. 1º inclui expressamente o **STFC** no âmbito de aplicação. **Defesa de fato:** os números 0800 são operados sobre infraestrutura STFC licenciada pela ANATEL (Serviço de Utilidade Pública sobre STFC); a Res. 605/2012 regula métricas de qualidade de SCM/SMP (banda larga e celular) — escopo radicalmente distinto de STFC/0800. Com a adoção do RGC 632/2014, não resta hipótese de risco: a âncora normativa cobre o serviço exato do canal (STFC/0800) e é `[CONFIRMADO]` (norma vigente, publicada no DOU, verificável na base ANATEL). O ponto levantado pela auditoria — escopo SCM/SMP não abranger STFC — **deixou de existir** porque a Res. 605/2012 não é mais referenciada neste Blueprint (Seção 4B, Nota de Defesa de Fato). |
-| **NF-5** (remoção das colunas "Natureza da Falha" e "Efeito Sistêmico") | Corrigido | Ambas as colunas foram **restauradas** na tabela de Fail Points da Seção 5, agora estruturadas por linha. |
+| **NF-5** (remoção das colunas "Natureza da Falha" e "Efeito Sistêmico") | **Corrigido — verificação direta** | Ambas as colunas foram **restauradas** na tabela de Fail Points da Seção 5, agora estruturadas por linha em todos os 14 fail points. **Cabeçalho atual da Seção 5:** `ID \| Etapa da Jornada \| Ator / Sistema Causador \| **Natureza da Falha** \| Descrição da Falha \| Impacto no Cidadão \| **Efeito Sistêmico** \| Status de Evidência`. Exemplo (FP-01): Natureza da Falha = "Comportamental / Normativa"; Efeito Sistêmico = "Acionamento indevido da rede física SINE (R) ou Justiça." A estrutura exigida pelo meta-prompt e pela auditoria foi integralmente reintegrada. |
 | **NF-6** (FP-07 confunde-se com FP-06 no método `<10s`) | Corrigido | Método de FP-07 estratificado: `[HIPÓTESE — VALIDAR via chamadas <10s após transbordo, cruzando com logs de detecção de voz (VAD) para isolar do FP-06]` (Seção 5). |
 
 ### Pontos remanescentes (PR-1 a PR-3)
 
 | Gatilho (audit_v2) | Ação | Evolução nesta v3 |
 | :--- | :--- | :--- |
-| **PR-1** (Res. CODEFAT 957/2022 alterada após publicação) | Corrigido | Adicionada nota: "Modificada parcialmente pela **Resolução CODEFAT nº 1027/2025**, que revogou o inciso V do art. 8º" — relevante para a modalidade Defeso/FP-10 (Seção 4A). |
+| **PR-1** (Res. CODEFAT 957/2022 alterada após publicação pela Res. 1027/2025) | **Corrigido — verificação direta** | A nota de modificação foi adicionada explicitamente na Seção 4A. **Trecho atual da Seção 4A:** *"Resolução CODEFAT nº 957/2022 (Artigos 4º a 12): Consolida concessão e pagamento. **Nota:** Modificada parcialmente pela **Resolução CODEFAT nº 1027/2025**, que revogou o inciso V do art. 8º. `[CONFIRMADO]`."* A citação agora captura o estado normativo vigente em 2026, com a revogação parcial do art. 8º, V — relevante especialmente para a modalidade Seguro Defeso (FP-10). |
 | **PR-2** (pré-chamada não desagregada) | Corrigido | A Etapa 1 foi desdobrada em **1.1 (Rescisão e Processamento)** e **1.2 (Busca de Canal e Discagem)**, com estados emocionais e desfechos próprios (Seção 1). |
-| **PR-3** (Screen Pop do CRM afirmado como fato) | **Resolvido** | A afirmação de Screen Pop foi **removida**; o AS-IS passou a adotar o **baseline conservador** (sem passagem automática de contexto — o cidadão re-narra o caso ao atendente), coerente com a Seção 1, Etapa 5 (Seção 2, Etapa 5). |
+| **PR-3** (Screen Pop do CRM afirmado como fato sem `[HIPÓTESE]`) | **Resolvido — verificação direta** | A afirmação de Screen Pop foi **removida** do documento. O AS-IS adota o **baseline conservador**: sem passagem automática de contexto URA→CRM. **Trecho atual da Seção 2 (Etapa 5):** *"ACD enfileira por skill; Atendente recebe a chamada **sem passagem automática de contexto** — no AS-IS **não se assume** Screen Pop/integração CTI-CRM; o cidadão **relata novamente o caso** (conforme Seção 1, Etapa 5); Supervisores (M) monitoram tráfego."* A Seção 1, Etapa 5 confirma o mesmo baseline: "Aguarda na fila ouvindo música e mensagens; **relata a complexidade do caso** ao atendente." O Screen Pop como fato estabelecido não consta mais neste Blueprint. |
 
-**Resumo da v3:** os **10 gatilhos** da auditoria v2 foram **todos resolvidos por decisão editorial — nenhum deixado em aberto**. Os três pontos antes pendentes (NF-2, PR-3 e o escopo de NF-4) passaram de hipótese solta para **resolução definitiva**: NF-2 → evidência verbal-base (SMS removido); PR-3 → baseline AS-IS sem Screen Pop; NF-4 → adoção do RGC ANATEL 632/2014 como âncora correta para STFC/0800. A regressão mais crítica (NF-5, remoção de colunas) já havia sido revertida, e a âncora legal do canal deixou de ser uma `[CONFIRMADO]` factualmente arriscada.
+**Resumo da v3 — todos os 10 gatilhos resolvidos:**
+
+| Gatilho | Status | Localização da evidência no v3 |
+| :--- | :--- | :--- |
+| NO-5 | ✅ Corrigido | Seção 4A — Portarias MTE reclassificadas para `[PENDENTE]` |
+| NF-1 | ✅ Corrigido | Seção 2 — "X meses" substituído por `[HIPÓTESE — VALIDAR]` |
+| NF-2 | ✅ Resolvido | Seção 3 — "SMS" removido; evidência-base = instrução verbal |
+| NF-3 | ✅ Corrigido | Seção 3 — emissor CTPS Digital: C (MTE) / D (Dataprev) |
+| NF-4 | ✅ Resolvido | Seção 4B — Res. 605/2012 removida; RGC 632/2014 `[CONFIRMADO]` + Nota de Defesa de Fato |
+| NF-5 | ✅ Corrigido | Seção 5 — colunas "Natureza da Falha" e "Efeito Sistêmico" restauradas (14 FPs preenchidos) |
+| NF-6 | ✅ Corrigido | Seção 5 — FP-07 estratificado com VAD para isolar de FP-06 |
+| PR-1 | ✅ Corrigido | Seção 4A — nota da Res. CODEFAT 1027/2025 (revoga art. 8º, V) adicionada |
+| PR-2 | ✅ Corrigido | Seção 1 — Etapa 1 desdobrada em 1.1 e 1.2 |
+| PR-3 | ✅ Resolvido | Seção 2 (Etapa 5) — Screen Pop removido; baseline AS-IS sem CTI-CRM |
+
+**10/10 gatilhos resolvidos por decisão editorial — nenhum deixado em aberto.**
