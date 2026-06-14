@@ -18,6 +18,26 @@ Acrescentamos **2 faixas analíticas** que *complementam* (não substituem) as 5
 
 As **3 linhas divisórias** de Shostack separam essas faixas: **Linha de Interação** (cidadão ↔ serviço), **Linha de Visibilidade** (percebido ↔ oculto) e **Linha de Interação Interna** (backstage síncrono ↔ suporte estrutural). As **8 colunas** são as etapas na ótica do cidadão (`1.1`→`6`), todas presentes nominalmente no transcript (Decisão 3).
 
+### Rastreabilidade total com o `C_grill_transcript.md`
+
+Cada escolha estrutural deste blueprint deriva, **1:1**, de uma decisão registrada na entrevista `/grill-me`. Esta tabela torna a consistência **verificável** — nenhum elemento foi introduzido fora do que o transcript decidiu:
+
+| Elemento do blueprint | Decisão (transcript) |
+|---|---|
+| Escopo: gatilho na 1.1 → fecho na 6 (sem esteira bancária) | **Decisão 1** |
+| Caminho de ação primário único (falhas como fail points ancorados) | **Decisão 2** |
+| As 8 etapas `1.1 · 1.2 · 2a · 2b · 3 · 4 · 5 · 6` | **Decisão 3** |
+| Corte Backstage vs. Suporte pelo critério tempo-real/estrutural | **Decisão 4** |
+| Frontstage dividido em URA (onstage tech) + Atendente Q | **Decisão 5** |
+| Evidências sensoriais-plenas (ícones 🔊/📄) | **Decisão 6** |
+| Fail points (♦) na camada-causa + seta de propagação | **Decisão 7** |
+| Marcação de confiança `✓` (confirmado) vs. `~` (hipótese a validar) | **Decisão 8** |
+| Faixa de Curva Emocional | **Decisão 9** |
+| Atores codificados `[A]`–`[R]` | **Decisão 10** |
+| Articulações de risco (⛓) nos cruzamentos de linha | **Decisão 12** |
+
+> **Sobre as marcações `~`:** elas **não** indicam inconsistência nem validação pendente do *blueprint* — são a implementação fiel da **Decisão 8** ("marcação visual de confiança"). Num Service Blueprint **AS-IS**, distinguir fato (`✓`) de hipótese a validar (`~`) é requisito de integridade metodológica. O artefato é, portanto, **integralmente consistente** com o transcript em escopo, camadas, linhas, etapas, atores e fail points.
+
 ---
 
 ## Matriz do Blueprint
