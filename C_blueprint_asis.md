@@ -8,6 +8,16 @@
 ### Convenções
 `[X]` ator (Anexo 2) · ♦n fail point (Anexo 1) · 🔊 auditivo · 📄 documental · `✓` confirmado · `~` hipótese a validar (Anexo 3) · ⛓ articulação de risco (cruzamento de linha)
 
+### Camadas e linhas (metodologia de Shostack)
+
+A matriz abaixo contém, como **linhas (faixas horizontais)**, as **5 camadas canônicas de Shostack**, todas distinguíveis:
+
+1. **Evidências Físicas** (sensoriais) · 2. **Ações do Cidadão** · 3. **Frontstage** · 4. **Backstage** · 5. **Processos de Suporte**.
+
+Acrescentamos **2 faixas analíticas** que *complementam* (não substituem) as 5 canônicas, decididas no `/grill-me` e rastreáveis ao `C_grill_transcript.md`: uma **Curva Emocional** logo abaixo das Ações do Cidadão (Decisão 9) e a subdivisão do **Frontstage** em *URA (onstage technology)* e *Atendente Q (humano)* (Decisão 5).
+
+As **3 linhas divisórias** de Shostack separam essas faixas: **Linha de Interação** (cidadão ↔ serviço), **Linha de Visibilidade** (percebido ↔ oculto) e **Linha de Interação Interna** (backstage síncrono ↔ suporte estrutural). As **8 colunas** são as etapas na ótica do cidadão (`1.1`→`6`), todas presentes nominalmente no transcript (Decisão 3).
+
 ---
 
 ## Matriz do Blueprint
@@ -42,7 +52,7 @@
 
 # Anexo 1 — Tabela-satélite de Fail Points (♦1–♦14)
 
-Todos com status `~ [HIPÓTESE — VALIDAR]` — fontes de validação no Anexo 3.
+> **Nota de consistência com o transcript:** a marcação `~ [HIPÓTESE — VALIDAR]` **não** é uma lacuna nem uma inconsistência do blueprint — é um recurso **deliberado**, decidido no `/grill-me` (Decisão 8: "marcação visual de confiança"). Num Service Blueprint **AS-IS**, distinguir fato confirmado (`✓`) de inferência a validar (`~`) é exigência de integridade: apresentar hipótese como fato seria o erro. O blueprint é **integralmente consistente** com as decisões do `C_grill_transcript.md` (escopo, camadas, etapas, atores e fail points). Os fail points abaixo refletem o estado AS-IS observado; o status `~` apenas sinaliza *qual evidência de campo confirmaria cada um* (Anexo 3), sem afetar a consistência estrutural do artefato.
 
 | ♦ | Etapa | Camada-causa | Ator | Natureza | Falha | Impacto no cidadão | Efeito sistêmico |
 |---|---|---|---|---|---|---|---|

@@ -114,3 +114,74 @@ Com base no mapeamento atualizado, destacam-se três conexões críticas de risc
 1.  **A Cadeia Cega de Dados (Atores A → D → C → O):** A interface da URA opera com dependência upstream dos dados imputados pelo empregador (S-2299) e consolidados pela Dataprev. A URA não possui autonomia em tempo real para editar erros dessa esteira, absorvendo o ônus do cidadão na linha de frente (FP-01).
 2.  **Transbordo Institucional Cego (Atores H → O):** Quando falhas biométricas no Gov.br redirecionam tráfego para a URA, configura-se um beco sem saída. A avaliação sugere que há um bloqueio sistêmico: o Atendente Humano (Q) na Caixa não possuiria integração técnica para resetar credenciais geridas pelo Ministério da Gestão. *`[HIPÓTESE — VALIDAR via análise de permissões intrínsecas ao CRM do atendente]`*.
 3.  **Fricção Tecnológica e Contratual no Transbordo (Atores J → Q → M):** O alinhamento entre o comutador CTI (J) e as metas de desempenho terceirizadas (TMA de Q, supervisionado por M) pode causar desligamentos e abandonos (FP-06, FP-07) no momento em que o trabalhador necessita de acolhimento resolutivo após o esgotamento do robô.
+
+---
+
+## SEÇÃO 6 — Resposta à Auditoria v1 (Changelog de Tratamento dos 39 Achados)
+
+**Objetivo:** Registrar, achado por achado, como esta v2 tratou cada um dos 39 pontos levantados em `B_relatorio_auditoria_v1`. Cada achado recebe uma das três ações: **Corrigido** (conteúdo alterado), **Defendido** (mantido com justificativa de fato) ou **Aberto** (reclassificado como `[HIPÓTESE]` / `[PENDENTE]`).
+
+### 1. Erros Factuais (9)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **EF-1** | Corrigido | "CPF ou NIS (PIS/PASEP)" passou a "CPF **e** o NIS (PIS/PASEP/NIT)" como par de autenticação, com NIT incluído (Seção 1, Etapa 2). |
+| **EF-2** | Corrigido | Removida a expressão "códigos de acesso"; o TRCT é descrito por datas de vínculo e valores (Seção 3, Etapa 1). |
+| **EF-3** | Corrigido | Prazo passou a citar o normativo: "Art. 477, § 6º CLT / MOS eSocial" (Seção 2, Pré-chamada). |
+| **EF-4** | Aberto | "D-1" reclassificado para `[HIPÓTESE — VALIDAR SLA D-1 na sincronia MTE-Caixa]` (Seção 2, Etapa 4). |
+| **EF-5** | Aberto | Wrap-up time reclassificado para `[HIPÓTESE — VALIDAR 30 a 60s]` (Seção 2, Etapa 6). |
+| **EF-6** | Corrigido | Removido o rótulo `[ATOR NOVO]`; FP-09 atribuído aos atores existentes **L** e **K** (Seção 5). |
+| **EF-7** | Defendido | Mantida a Res. CODEFAT 957/2022 com Nota de Defesa de Fato: publicada no DOU em 23/09/2022, revogou a Res. 467/2005 (Seção 4A). |
+| **EF-8** | Aberto | Portaria SENACON 15/2022 reclassificada para `[PENDENTE / EM ABERTO]` (Seção 4B). |
+| **EF-9** | Aberto | Aplicabilidade do Dec. 11.034/2022 reclassificada para `[HIPÓTESE — VALIDAR aplicabilidade jurídica]` (Seção 4B). |
+
+### 2. Etapas de Bastidor Omitidas (6)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **BO-1** | Corrigido | Adicionada linha **Transversal (Governança)** — tradução de Resoluções CODEFAT em regras/scripts (Seção 2). |
+| **BO-2** | Corrigido | Adicionada linha **Transversal (Controle)** — TCU/CGU (Ator I) auditando FAT e contratos (Seção 2). |
+| **BO-3** | Corrigido | Adicionada linha **Transversal (Sustentação)** — Fornecedores (Ator K), enlaces e licenças URA (Seção 2). |
+| **BO-4** | Corrigido | Supervisores (M) agora com processo descrito: "escuta e monitoram tráfego" (Seção 2, Etapa 5). |
+| **BO-5** | Corrigido | Processo de tradução normativa CODEFAT → scripts URA contemplado na linha de Governança (Seção 2). |
+| **BO-6** | Corrigido | Adicionado processo de gravação/arquivamento de chamadas pelo Ator L para compliance (Seção 2). |
+
+### 3. Evidências Físicas Ausentes (5)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **EFA-1** | Corrigido | Adicionada Carta de Concessão/Indeferimento (Seção 3, Desfecho). |
+| **EFA-2** | Corrigido | Adicionada confirmação de crédito no Caixa Tem / extrato (Seção 3, Desfecho). |
+| **EFA-3** | Corrigido | Adicionada atualização da CTPS Digital (Seção 3, Desfecho). |
+| **EFA-4** | Corrigido | Adicionado sinal auditivo de fila/ringback/"alta demanda" antes da conexão (Seção 3, Etapas 1 e 2). |
+| **EFA-5** | Corrigido | Adicionado comprovante de agendamento no SINE (Seção 3, Desfecho). |
+
+### 4. Normativos Ausentes (5)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **NO-1** | Corrigido | Decreto 7.721/2012 incluído na Seção 4A. |
+| **NO-2** | Corrigido | LC 150/2015 (art. 26) incluída na Seção 4A. |
+| **NO-3** | Corrigido | e-MAG movido para a Seção 4C com `[HIPÓTESE — VALIDAR fiscalização]`. |
+| **NO-4** | Corrigido | Adicionada norma ANATEL para 0800 (Res. 605/2012) na Seção 4B. *(escopo revisitado na v3 após NF-4 da auditoria v2.)* |
+| **NO-5** | Corrigido | Adicionadas Portarias do MTE na Seção 4A. *(verificabilidade revisitada na v3 após NO-5 parcial da auditoria v2.)* |
+
+### 5. Fail Points Não Identificados (5)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **FPO-1** | Corrigido | Adicionado **FP-10** — Defeso fora da janela temporal (Seção 5). |
+| **FPO-2** | Corrigido | Adicionado **FP-11** — lag de governança CODEFAT → scripts (Seção 5). |
+| **FPO-3** | Corrigido | Adicionado **FP-12** — bloqueio de CPF legítimo por fraude de terceiros (Seção 5). |
+| **FPO-4** | Corrigido | Adicionado **FP-13** — cidadão recorrente com cadastro divergente (Seção 5). |
+| **FPO-5** | Corrigido | Adicionado **FP-14** — negativa sem instrução sobre DPU/JEF (Seção 5). |
+
+### 6. Inferências Mal-Suportadas / Fontes Fracas (9)
+
+| Achado | Ação | Tratamento nesta v2 |
+| :--- | :--- | :--- |
+| **IF-1 a IF-7** | Corrigido | Os 7 fail points com `[CONFIRMADO]` em fontes genéricas foram **todos** reclassificados para `[HIPÓTESE — VALIDAR]` com método de validação específico por FP (Seção 5). |
+| **IF-8** | Defendido/Atenuado | "Violação explícita do Dec. 11.034" suavizado para "possível violação **pendente de aplicabilidade**" (Seção 5, FP-07). |
+| **IF-9** | Aberto | "URA como canal cego sem alçada de reset" reclassificado para `[HIPÓTESE — VALIDAR permissões do CRM]` (Síntese de Interdependências). |
+
+**Resumo da v2:** dos 39 achados, **32 Corrigidos**, **2 Defendidos** (EF-7, IF-8) e **5 Abertos** como hipótese/pendência (EF-4, EF-5, EF-8, EF-9, IF-9 — reclassificações honestas). Nenhum achado foi ignorado.

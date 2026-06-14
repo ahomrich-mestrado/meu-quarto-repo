@@ -28,6 +28,15 @@ A análise parte da união de duas disciplinas:
 - **Sociologia dramatúrgica** de Erving Goffman (1959, *The Presentation of Self in Everyday Life*): divisão analítica entre o que o cidadão vê (*frontstage*) e o que ocorre fora de cena (*backstage*).
 - **Service Blueprinting** de G. Lynn Shostack (1984, "Designing Services That Deliver", *Harvard Business Review*): mapeamento sistemático de processos, evidências e pontos de falha ao longo da jornada.
 
+**Objetivo da pesquisa (deep research da operação real):**
+Esta tarefa exige uma **pesquisa aprofundada (deep research) de como o serviço opera hoje (AS-IS)** — não uma descrição idealizada. A pesquisa deve sustentar o Service Blueprint AS-IS cobrindo, de forma investigativa e rastreável, as cinco camadas da metodologia:
+1. a **jornada real do cidadão** (frontstage) etapa a etapa;
+2. os **processos de bastidor (backstage)** — o que sistemas e atores executam fora da vista do cidadão em resposta a cada interação;
+3. os **processos de suporte** estruturais que sustentam o serviço de forma permanente (governança normativa, sustentação de infraestrutura, controle/auditoria, gravação/compliance);
+4. as **evidências físicas/sensoriais** percebidas em cada etapa;
+5. os **fail points** — pontos de falha confirmados ou hipotéticos, com ator causador, natureza, impacto no cidadão e efeito sistêmico.
+A pesquisa deve distinguir explicitamente **fato confirmado** de **hipótese a validar**, indicando o método de verificação de cada lacuna, de modo que o Blueprint AS-IS resultante seja auditável.
+
 ---
 
 ## BLOCO 2 — ECOSSISTEMA DE ATORES (Pré-mapeado — não redescobrir)
@@ -110,6 +119,10 @@ Cubra obrigatoriamente as seguintes etapas macro (desdobrando em sub-etapas quan
 ### SEÇÃO 2 — Processos de Bastidor (Backstage)
 
 **Objetivo:** Para cada etapa da Seção 1, mapear os processos executados fora da vista do cidadão, identificando o ator responsável (usar IDs A–S do Bloco 2), o sistema envolvido e a janela temporal quando conhecida.
+
+A pesquisa deve distinguir e detalhar **dois níveis** de bastidor, separados pela linha de interação interna de Shostack:
+- **(i) Backstage propriamente dito** — processos acionados *em resposta à interação* (tempo real): captura e autenticação na URA, consulta de APIs, ASR/NLP, roteamento ACD/CTI, geração de TTS.
+- **(ii) Processos de suporte estruturais** — processos permanentes que sustentam o serviço independentemente de uma chamada específica. É **obrigatório** detalhar, no mínimo: **governança normativa** (tradução de Resoluções CODEFAT em regras e scripts de URA), **sustentação de infraestrutura** (enlaces de telecom, licenças e disponibilidade de banco de dados), **controle/auditoria** (monitoramento contínuo de TCU/CGU sobre o FAT e os contratos) e **gravação/compliance** (registro e retenção das chamadas, com implicações de LGPD).
 
 Para cada processo de bastidor, entregue:
 

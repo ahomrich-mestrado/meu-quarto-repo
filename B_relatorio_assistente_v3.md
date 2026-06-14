@@ -115,3 +115,36 @@ Com base no mapeamento atualizado, destacam-se três conexões críticas de risc
 1.  **A Cadeia Cega de Dados (Atores A → D → C → O):** A interface da URA opera com dependência upstream dos dados imputados pelo empregador (S-2299) e consolidados pela Dataprev. A URA não possui autonomia em tempo real para editar erros dessa esteira, absorvendo o ônus do cidadão na linha de frente (FP-01).
 2.  **Transbordo Institucional Cego (Atores H → O):** Quando falhas biométricas no Gov.br redirecionam tráfego para a URA, configura-se um beco sem saída. A avaliação sugere que há um bloqueio sistêmico: o Atendente Humano (Q) na Caixa não possuiria integração técnica para resetar credenciais geridas pelo Ministério da Gestão. *`[HIPÓTESE — VALIDAR via análise de permissões intrínsecas ao CRM do atendente]`*.
 3.  **Fricção Tecnológica e Contratual no Transbordo (Atores J → Q → M):** O alinhamento entre o comutador CTI (J) e as metas de desempenho terceirizadas (TMA de Q, supervisionado por M) pode causar desligamentos e abandonos (FP-06, FP-07) no momento em que o trabalhador necessita de acolhimento resolutivo após o esgotamento do robô.
+
+---
+
+## SEÇÃO 6 — Resposta à Auditoria v2 (Evolução por Gatilho)
+
+**Objetivo:** Registrar como esta v3 evoluiu a partir de cada gatilho de `B_relatorio_auditoria_v2`. A auditoria v2 apontou 1 achado parcial (NO-5), 6 falhas novas introduzidas na v2 (NF-1 a NF-6) e 3 pontos remanescentes (PR-1 a PR-3). Cada gatilho é citado por ID e endereçado abaixo.
+
+### Achado parcial remanescente da rodada v1
+
+| Gatilho (audit_v2) | Ação | Evolução nesta v3 |
+| :--- | :--- | :--- |
+| **NO-5** (Portarias MTE genéricas marcadas `[CONFIRMADO]`) | Corrigido | A entrada genérica "(ex: Portarias MTP) `[CONFIRMADO]`" foi reclassificada para `[PENDENTE — identificar portarias específicas (ex: Portarias MTP) e artigos aplicáveis]` (Seção 4A). |
+
+### Falhas novas introduzidas na v2 (NF-1 a NF-6)
+
+| Gatilho (audit_v2) | Ação | Evolução nesta v3 |
+| :--- | :--- | :--- |
+| **NF-1** (retenção "X meses" sem marcação) | Corrigido | Substituído por `[HIPÓTESE — VALIDAR prazo legal ou contratual de retenção, ex: 90 dias via Dec 11.034]` (Seção 2, linha de gravação). |
+| **NF-2** (comprovante SINE via "SMS" afirmado como fato) | Aberto | Reclassificado para `[HIPÓTESE — VALIDAR se envio ocorre via SMS digital ou apenas instrução verbal]` (Seção 3, Desfecho). |
+| **NF-3** (CTPS Digital atribuída a H/Gov.br como coemissor) | Corrigido | Emissor corrigido de **H (Gov.br)** para **C (MTE) / D (Dataprev)** (Seção 3, Desfecho). |
+| **NF-4** (ANATEL 605/2012 é SCM/SMP, não STFC/0800) | Corrigido | Substituída a `[CONFIRMADO]` Res. 605/2012 por `[HIPÓTESE — VALIDAR escopo ao STFC via ANATEL, ex: Res. 436/2006 ou RGC 632/2014]` (Seção 4B). |
+| **NF-5** (remoção das colunas "Natureza da Falha" e "Efeito Sistêmico") | Corrigido | Ambas as colunas foram **restauradas** na tabela de Fail Points da Seção 5, agora estruturadas por linha. |
+| **NF-6** (FP-07 confunde-se com FP-06 no método `<10s`) | Corrigido | Método de FP-07 estratificado: `[HIPÓTESE — VALIDAR via chamadas <10s após transbordo, cruzando com logs de detecção de voz (VAD) para isolar do FP-06]` (Seção 5). |
+
+### Pontos remanescentes (PR-1 a PR-3)
+
+| Gatilho (audit_v2) | Ação | Evolução nesta v3 |
+| :--- | :--- | :--- |
+| **PR-1** (Res. CODEFAT 957/2022 alterada após publicação) | Corrigido | Adicionada nota: "Modificada parcialmente pela **Resolução CODEFAT nº 1027/2025**, que revogou o inciso V do art. 8º" — relevante para a modalidade Defeso/FP-10 (Seção 4A). |
+| **PR-2** (pré-chamada não desagregada) | Corrigido | A Etapa 1 foi desdobrada em **1.1 (Rescisão e Processamento)** e **1.2 (Busca de Canal e Discagem)**, com estados emocionais e desfechos próprios (Seção 1). |
+| **PR-3** (Screen Pop do CRM afirmado como fato) | Aberto | Reclassificado para `[HIPÓTESE — VALIDAR integração CTI-CRM para Screen Pop automático]` (Seção 2, Etapa 5). |
+
+**Resumo da v3:** os 10 gatilhos da auditoria v2 foram endereçados — **7 Corrigidos** e **3 Abertos** como hipótese (NF-2, PR-3 e a parte de escopo de NF-4). A regressão mais crítica apontada pela auditoria (NF-5, remoção de colunas exigidas pelo meta-prompt) foi revertida, e a âncora legal do canal (NF-4) deixou de ser uma `[CONFIRMADO]` factualmente arriscada.
